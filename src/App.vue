@@ -16,7 +16,7 @@ export default {
 <style>
 body {
   background-color: rgb(199, 212, 78);
-  background-image: url(./assets/11.jpeg);
+  background-image: url(./assets/6.jpeg);
   background-size: 103em;
 }
 </style>

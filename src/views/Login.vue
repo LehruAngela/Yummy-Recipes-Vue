@@ -1,8 +1,18 @@
 <template>
+<div>
   <v-container>
   <navbar/>
   <v-layout justify-space-between>
-    <v-flex xs7 offset-xs3>
+    <v-flex xs8 offset-xs2>
+      <home/>
+      <!-- <v-tabs fixed-tabs 
+      color="cyan"
+      dark
+      slider-color="yellow">
+    <v-tab to="/">SignUp</v-tab>
+    <v-tab to="/login">Login</v-tab>
+      </v-tabs> -->
+    <div class="content">
     <v-form ref="form">
       <v-text-field
         v-model="email"
@@ -13,6 +23,7 @@
         @blur="$v.email.$touch()">
       </v-text-field>
       <v-text-field
+        :type="'password'"
         v-model="password"
         :error-messages="passwordErrors"
         label="Password"
@@ -20,24 +31,24 @@
         @input="$v.password.$touch()"
         @blur="$v.password.$touch()">
       </v-text-field>
-      <v-btn @click="login">Login</v-btn>
+      <v-btn color="cyan" @click="login" dark>Login</v-btn>
     </v-form>
-    <h4>Don't have an account?</h4>
-    <router-link to="/">Register</router-link>
-    <footer>
-      <p className="copyright text-muted small footer">Copyright © Gela 2019.</p>
-    </footer>
+    </div>
     </v-flex>
   </v-layout>
   </v-container>
+  <v-footer dark class="grey darken-3 justify-center">
+    Copyright &copy; <strong> Gela 2019</strong>
+  </v-footer>
+  </div>
 </template>
 
 <script>
-import Vue from "vue";
-import Navbar from "@/components/Navbar";
 import { validationMixin } from "vuelidate";
-import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
+import { required, email } from "vuelidate/lib/validators";
+import Navbar from "@/components/Navbar";
 import { signin } from "@/api/account.js";
+import Home from "@/views/Home"
 
 export default {
   mixins: [validationMixin],
@@ -52,17 +63,19 @@ export default {
     password: ""
   }),
 
-  components: { Navbar },
+  components: { Navbar, Home },
 
   methods: {
-    login() {
-      if (!this.$v.$invalid) {
-        const user = {
-          email: this.email,
-          password: this.password
-        };
-        console.log("user-af", user);
-        signin(user);
+    async login() {
+      const user = {
+        email: this.email,
+        password: this.password
+      };
+      try{
+        await signin(user);
+        this.$router.push({ path: '/categories'});
+      } catch(e){
+        console.log(e)
       }
     }
   },
@@ -90,6 +103,17 @@ export default {
   color: rgb(3, 26, 88) !important;
   font-size: 20px !important;
   font-weight: bold !important;
+}
+
+.content {
+  background-color: rgba(255, 255, 255, 0.5) !important;
+  padding: 2em;
+}
+
+.v-footer {
+ position: absolute;
+ bottom: 0;
+ width: 100%;
 }
 </style>
 

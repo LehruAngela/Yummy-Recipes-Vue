@@ -8,7 +8,7 @@ export const signup = (data) => {
       if (response.status === 201) {
         Vue.notify({ type:'success', text: response.data.message })
         localStorage.setItem('accessToken', response.data.access_token);
-        // this.props.history.push('/categories');
+        this.$router.push('categories');
         return true;
       }
     }).catch(error => {
@@ -26,10 +26,13 @@ export const signin = (data) => {
       if (response.status === 200) {
         Vue.notify({ type:'success', text: response.data.message })
         localStorage.setItem('accessToken', response.data.access_token);
-        // this.props.history.push('/categories');
+        // self.$router.push('/categories');
+        console.log('done')
+
         return true;
       }
     }).catch(error => {
+      console.log('error', error)
     if (error.response){
       Vue.notify({ type:'warn', text: error.response.data.message })
     } else if(error.request){

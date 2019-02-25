@@ -1,8 +1,18 @@
 <template>
+<div>
   <v-container>
   <navbar/>
   <v-layout justify-space-between>
-    <v-flex xs7 offset-xs3>
+    <v-flex xs8 offset-xs2>
+      <home/>
+      <!-- <v-tabs fixed-tabs 
+      color="cyan"
+      dark
+      slider-color="yellow">
+    <v-tab to="/">SignUp</v-tab>
+    <v-tab to="/login">Login</v-tab>
+      </v-tabs>  -->
+    <div class ="content">
     <v-form ref="form">
       <v-text-field
         v-model="username"
@@ -20,7 +30,8 @@
         @input="$v.email.$touch()"
         @blur="$v.email.$touch()"
       ></v-text-field>
-      <v-text-field
+      <v-text-field 
+        :type="'password'"
         v-model="password"
         :error-messages="passwordErrors"
         label="Password"
@@ -29,6 +40,7 @@
         @blur="$v.password.$touch()"
       ></v-text-field>
       <v-text-field
+        :type="'password'"
         v-model="confirmPassword"
         :error-messages="confirmPasswordErrors"
         label="Confirm Password"
@@ -36,24 +48,24 @@
         @input="$v.confirmPassword.$touch()"
         @blur="$v.confirmPassword.$touch()"
       ></v-text-field>
-      <v-btn @click="register">Sign Up</v-btn>
+      <v-btn color="cyan" @click="register" dark>Sign Up</v-btn>
     </v-form>
-    <h4>Already have an account?</h4>
-    <router-link to="/login">Login</router-link>
-    <footer>
-      <p className="copyright text-muted small footer">Copyright © Gela 2019.</p>
-    </footer>
+    </div>
     </v-flex>
   </v-layout>
   </v-container>
+  <v-footer dark class="grey darken-3 justify-center">
+    Copyright &copy; <strong> Gela 2019</strong>
+  </v-footer>
+  </div>
 </template>
 
 <script>
-import Vue from 'vue'
-import Navbar from '@/components/Navbar'
 import { validationMixin } from 'vuelidate'
 import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
+import Navbar from '@/components/Navbar'
 import { signup } from '@/api/account.js'
+import Home from "@/views/Home"
 
 export default {
   mixins: [validationMixin],
@@ -72,21 +84,18 @@ export default {
     confirmPassword: '',
   }),
 
-  components: { Navbar },
+  components: { Navbar, Home },
 
   methods: {
     register() {
-      if(!this.$v.$invalid) {
-        const user = { 
-          username: this.username,
-          email: this.email,
-          password: this.password,
-          confirmPassword: this.confirmPassword
-          }
-        console.log('user-af', user)
-        signup(user)
+      const user = { 
+        username: this.username,
+        email: this.email,
+        password: this.password,
+        confirm_password: this.confirmPassword
       }
-    }
+      signup(user)
+      }
   },
 
   computed: {
@@ -121,10 +130,15 @@ export default {
 </script>
 
 <style>
-.theme--light.v-label{
+.theme--light.v-label {
   color: rgb(3, 26, 88) !important;
   font-size: 20px !important;
   font-weight: bold !important;
 }
+
+.content {
+  background-color: rgba(255, 255, 255, 0.5) !important;
+}
+
 </style>
 

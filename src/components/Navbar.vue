@@ -12,6 +12,6 @@
 
 <style>
 .v-toolbar {
-  margin-bottom: 4em;
+  background-color: rgba(255, 255, 255, 0.5) !important;
 }
 </style>
