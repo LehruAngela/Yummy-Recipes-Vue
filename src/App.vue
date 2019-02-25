@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-    Welcome!
     <router-view></router-view>
+    <notifications width=50% position="top center"/>
+
   </div>
 </template>
 
 <script>
-
 export default {
   name: 'app',
 
@@ -14,5 +14,9 @@ export default {
 </script>
 
 <style>
-
+body {
+  background-color: rgb(199, 212, 78);
+  background-image: url(./assets/6.jpeg);
+  background-size: 103em;
+}
 </style>
